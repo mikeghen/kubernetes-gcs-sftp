@@ -96,7 +96,7 @@ minikube service sftp --url
 ```
 This will give you the IP and NodePort port.
 
-:information_source: We use NodePort 30022 for SFTP. 
+:information_source: We use NodePort 30022 for SFTP.
 
 ### 7. Confirm you can SFTP using the usernames and password you setup in `etc/sftp*` with `sftp` utility:
 ```
@@ -105,8 +105,3 @@ username@192.168.99.100's password:
 sftp> pwd
 /directory
 ```
-
-
-# To Do
-- [ ] Encrypted passwords in `users.conf`
-- [ ] Avoid having to "bake" the `users.conf` and `mount_user_directories.sh`
