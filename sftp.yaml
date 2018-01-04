@@ -10,10 +10,9 @@ spec:
   - name: ssh
     port: 22
     targetPort: 22
+    nodePort: 30022
   selector:
     app: sftp
-status:
-  loadBalancer: {}
 ---
 apiVersion: apps/v1beta1
 kind: Deployment

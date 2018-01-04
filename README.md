@@ -94,11 +94,13 @@ kubectl apply -f sftp.yaml
 ```
 minikube service sftp --url
 ```
-This will give you the IP and NodePort port (which will be something like 30000)
+This will give you the IP and NodePort port.
+
+:information_source: We use NodePort 30022 for SFTP. 
 
 ### 7. Confirm you can SFTP using the usernames and password you setup in `etc/sftp*` with `sftp` utility:
 ```
-$ sftp -P 31332 username@192.168.99.100
+$ sftp -P 30022 username@192.168.99.100
 username@192.168.99.100's password:
 sftp> pwd
 /directory
