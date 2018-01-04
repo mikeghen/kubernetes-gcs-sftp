@@ -1,0 +1,57 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: sftp
+  labels:
+    environment: production
+spec:
+  type: NodePort
+  ports:
+  - name: ssh
+    port: 22
+    targetPort: 22
+  selector:
+    app: sftp
+status:
+  loadBalancer: {}
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: sftp-deployment
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: sftp
+    spec:
+      volumes:
+        - name: users
+          secret:
+            secretName: users
+        - name: sftp-gcloud-key
+          secret:
+            secretName: sftp-gcloud-key
+        - name: gcs-mounts
+          configMap:
+            name: gcs-mounts
+            defaultMode: 0744
+      containers:
+      - name: sftp
+        image: mikeghen/kube-sftp
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 22
+        volumeMounts:
+          - mountPath: /etc/sftp
+            name: users
+          - mountPath: /credentials
+            name: sftp-gcloud-key
+          - mountPath: /etc/sftp.d/
+            name: gcs-mounts
+        securityContext:
+          privileged: true
+          capabilities:
+            add:
+              - SYS_ADMIN
